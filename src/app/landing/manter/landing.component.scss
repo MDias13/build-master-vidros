@@ -1,0 +1,535 @@
+/* Links e botões */
+@import '../animations//hero.scss';
+@import '../animations/header.scss';
+@import '../animations/services.scss';
+@import '../animations/depoimentos.scss';
+@import '../animations/sobre.scss';
+@import '../animations/parceiros.scss';
+
+
+h2 {
+  font-family: Georgia, 'Times New Roman', Times, serif
+}
+
+
+a { color: #16529E; }
+a:hover { opacity: .9; }
+
+/* Marca com logo (sem bordas, alinhada e responsiva) */
+.navbar-brand {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: .75rem; /* espaço do lado direito */
+}
+
+.brand-logo {
+  display: block;
+  height: 50px;
+  width: auto;
+}
+
+/* Em telas menores, reduz um pouco a logo */
+@media (max-width: 576px) {
+  .brand-logo { height: 30px; }
+}
+
+/* Se quiser a navbar ainda mais “clean” */
+.navbar {
+  --bs-navbar-brand-hover-color: inherit; /* evita efeito de hover no link da marca */
+}
+
+/* Toggler minimalista (sem borda, sem sombra, ícone na cor da marca) */
+.navbar-toggler {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent;
+  padding: .35rem;             /* área de clique confortável */
+  line-height: 1;
+  transition: opacity .15s ease, transform .15s ease;
+}
+
+.navbar-toggler:hover { opacity: .9; transform: translateY(-1px); }
+.navbar-toggler:active { transform: translateY(0); }
+.navbar-toggler:focus { box-shadow: none !important; }
+
+/* Acessibilidade: só mostra um contorno discreto no foco via teclado */
+.navbar-toggler:focus-visible {
+  outline: 2px solid rgba(22,82,158,.28);   /* #16529E com transparência */
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* Ícone “hambúrguer” na cor da marca (#16529E) */
+.navbar-toggler-icon {
+  width: 1.4rem;
+  height: 1.4rem;
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(22,82,158,.9)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+  background-size: 100% 100%;
+}
+
+.btn.btn-primary,
+.btn-primary {
+  background-color: #16529E !important; /* Azul Royal Profundo */
+  border-color: #16529E !important;
+  color: #ffffff !important;
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+.btn.btn-primary:hover,
+.btn-primary:hover {
+  filter: brightness(1.06);
+  box-shadow: 0 8px 18px rgba(22, 82, 158, .25);
+  transform: translateY(-1px);
+}
+.btn.btn-primary:active,
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(22, 82, 158, .20);
+}
+
+.btn.btn-light,
+.btn-light {
+  color: #16529E !important;
+}
+
+/* Navbar */
+.navbar-brand { letter-spacing: .5px; color: #16529E; }
+.navbar .nav-link { color: #333; }
+.navbar .nav-link:hover { color: #16529E; }
+
+/* HERO com imagem nova + scrim por cima para legibilidade do texto */
+.hero {
+  min-height: 48vh;
+  position: relative;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  background: url('../../../assets/banner-mastervidros.png') center/cover no-repeat;
+  overflow: hidden;
+}
+
+/* Scrim (degradê) sobre a imagem para evitar que o texto “afunde” no fundo */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Camada 1: escurece bastante (garante contraste AA/AAA)
+     Camada 2: leve tinta azul da marca só pra “temperar” o fundo */
+  background:
+    linear-gradient(180deg,rgba(0, 0, 0, 0.044) 100%,rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.175) 0% );
+
+  pointer-events: none;
+}
+
+/* Botão outlined no hero escuro */
+.hero .btn-outline-light {
+  border-width: 2px;
+  color: #fff;
+  border-color: rgba(255,255,255,.9);
+  background-color: transparent;
+  padding-inline: 24px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.133);
+  transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease;
+}
+.hero .btn-outline-light .bi { font-size: 1.15rem; line-height: 1; }
+
+.hero .btn-outline-light:hover {
+  background-color: #fff;
+  color: #16529E;             /* sua cor da marca */
+  border-color: #fff;
+  transform: translateY(-1px);
+}
+.hero .btn-outline-light:active { transform: translateY(0); }
+
+/* Texto mais legível sobre foto escura */
+.hero > .container { text-shadow: 0 3px 14px rgba(0,0,0,.45); }
+.hero h1 { color: #fff; }
+.hero .lead { color: rgba(255,255,255,.90); } /* em vez de opacity */
+
+/* Conteúdo acima do scrim */
+.hero > .container {
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 10px rgba(0,0,0,.25); /* reforça legibilidade */
+}
+
+/* Ajuste responsivo de espaço vertical */
+@media (min-width: 992px) {
+  .hero { min-height: 60vh; }
+}
+
+/* Ícone dos cards */
+.icon-wrap { font-size: 2rem; color: #16529E; }
+
+/* Cards */
+.card {
+  border: 1px solid rgba(22, 82, 158, .08);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(22, 82, 158, .12);
+  border-color: rgba(22, 82, 158, .18);
+}
+
+
+/* CTA com imagem de fundo e scrim por cima (texto legível em qualquer foto) */
+.cta {
+  position: relative;
+  text-align: center;
+  color: #ffffff;
+  padding: 72px 0;
+ background: url('../../../assets/banner-mastervidros.png') center/cover no-repeat;
+  overflow: hidden;
+}
+
+/* Scrim/overlay para contraste do texto */
+.cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(22, 82, 158, 0.50) 0%,     /* #16529E */
+      rgba(105, 170, 249, 0.28) 45%,  /* #69AAF9 */
+      rgba(22, 82, 158, 0.40) 100%
+    );
+  pointer-events: none;
+}
+
+/* Conteúdo acima do overlay */
+.cta > .container {
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 10px rgba(0,0,0,.25);
+}
+
+/* Botão claro com leve destaque de foco/acessibilidade */
+.cta .btn.btn-light {
+  color: #16529E !important;
+  border: 1px solid rgba(255,255,255,.2);
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+.cta .btn.btn-light:hover {
+  filter: brightness(1.04);
+  box-shadow: 0 10px 24px rgba(0,0,0,.18);
+  transform: translateY(-1px);
+}
+.cta .btn.btn-light:focus-visible {
+  outline: 2px solid #69AAF9;
+  outline-offset: 2px;
+}
+
+/* Ajuste de altura em telas grandes */
+@media (min-width: 992px) {
+  .cta { padding: 96px 0; }
+}
+
+/* Footer */
+footer a { opacity: .85; color: #69AAF9; }
+footer a:hover { opacity: 1; color: #16529E; }
+
+/* WhatsApp Float (verde oficial) */
+.whatsapp-float {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 56px; height: 56px;
+  background: #25d366;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  box-shadow: 0 10px 24px rgba(0,0,0,.2);
+  transition: transform .2s ease;
+}
+.whatsapp-float:hover { transform: translateY(-2px); }
+.whatsapp-float svg { width: 28px; height: 28px; fill: #fff; }
+
+/* Responsividade e tipografia fluida */
+.container { width: min(1120px, 92%); margin: 0 auto; }
+h1 { font-size: clamp(28px, 4.5vw, 42px); }
+h2 { font-size: clamp(22px, 3.6vw, 32px); }
+p  { font-size: clamp(14px, 1.5vw, 18px); }
+
+/* Acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+
+
+
+
+
+// carrousel
+
+/* ======================
+   GALERIA — CARROSSEL 3x1
+   ====================== */
+
+.g3x { position: relative; }
+
+/* Trilho com páginas 100% */
+.g3x__viewport {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+.g3x__viewport::-webkit-scrollbar { height: 8px; }
+.g3x__viewport::-webkit-scrollbar-thumb { background: rgba(0,0,0,.1); border-radius: 8px; }
+
+/* Cada página ocupa 100% da largura */
+.g3x__page {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  padding: 4px 0;
+}
+
+/* Linha com 3 itens (maiores) */
+.g3x__row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 300px;
+  gap: 20px;
+}
+
+/* Cartão + hover */
+.g3x__figure {
+  position: relative; margin: 0; height: 100%; overflow: hidden;
+  border-radius: 14px; background: #f2f4f8; box-shadow: 0 6px 16px rgba(0,0,0,.08);
+  cursor: zoom-in;
+}
+.g3x__figure img {
+  width: 100%; height: 100%; object-fit: cover;
+  transform: scale(1); transition: transform .25s ease, filter .25s ease;
+}
+.g3x__figure:hover img { transform: scale(1.04); filter: saturate(1.03); }
+
+/* Overlay “Ver” */
+.g3x__overlay {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  color: #fff; font-weight: 600; letter-spacing: .3px;
+  background: linear-gradient(0deg, rgba(0,0,0,.35), rgba(0,0,0,.05));
+  opacity: 0; transition: opacity .2s ease; pointer-events: none;
+}
+.g3x__figure:hover .g3x__overlay { opacity: 1; }
+.g3x__overlay span {
+  padding: .4rem .7rem; border-radius: 999px;
+  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.25);
+  backdrop-filter: blur(4px);
+}
+
+/* Setas */
+.g3x__arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px; border-radius: 50%; border: 0;
+  background: rgba(22,82,158,.9); color: #fff; display: grid; place-items: center;
+  box-shadow: 0 8px 20px rgba(22,82,158,.25);
+  cursor: pointer; z-index: 2;
+  transition: transform .15s ease, filter .15s ease, opacity .15s ease;
+}
+.g3x__arrow--left  { left: -10px; }
+.g3x__arrow--right { right: -10px; }
+.g3x__arrow:hover { filter: brightness(1.06); transform: translateY(-50%) scale(1.04); }
+.g3x__arrow:disabled { opacity: .4; cursor: default; filter: none; }
+
+/* Dots */
+.g3x__dots {
+  display: flex; justify-content: center; gap: 8px; margin-top: 14px;
+}
+.g3x__dots button {
+  width: 8px; height: 8px; border-radius: 50%; border: 0;
+  background: rgba(22,82,158,.25);
+  cursor: pointer; transition: transform .15s ease, background-color .15s ease;
+}
+.g3x__dots button.is-active { background: #16529E; transform: scale(1.15); }
+
+/* Lightbox (reaproveitado) */
+.gxlb {
+  position: fixed; inset: 0; background: rgba(0,0,0,.9);
+  display: grid; place-items: center; z-index: 1200; animation: gxlbFade .2s ease;
+}
+@keyframes gxlbFade { from { opacity: 0; } to { opacity: 1; } }
+.gxlb__inner { position: relative; max-width: 92vw; max-height: 90vh; display: grid; align-items: center; gap: 12px; }
+.gxlb__inner img { max-width: 92vw; max-height: 80vh; width: auto; height: auto; object-fit: contain; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,.5); }
+.gxlb__close, .gxlb__nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 46px; height: 46px; border: 0; border-radius: 50%;
+  background: rgba(255,255,255,.15); color: #fff; display: grid; place-items: center;
+  cursor: pointer; transition: background-color .15s ease, transform .15s ease;
+}
+.gxlb__close { top: -56px; right: 0; transform: none; border-radius: 10px; width: 44px; height: 44px; }
+.gxlb__nav--prev { left: -60px; } .gxlb__nav--next { right: -60px; }
+.gxlb__close:hover, .gxlb__nav:hover { background: rgba(255,255,255,.25); transform: translateY(-50%) scale(1.05); }
+.gxlb__close:hover { transform: none; }
+.gxlb__count { position: absolute; bottom: -38px; left: 50%; transform: translateX(-50%); font-size: 13px; color: #fff; opacity: .8; }
+
+/* Responsivo (mantém 3 itens por página no desktop; reduz nos menores) */
+@media (max-width: 991.98px) {
+  .g3x__row { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 260px; } /* 2 por página */
+}
+@media (max-width: 575.98px) {
+  .g3x__row { grid-template-columns: 1fr; grid-auto-rows: 220px; } /* 1 por página */
+  .g3x__arrow--left { left: 4px; } .g3x__arrow--right { right: 4px; }
+  .gxlb__nav--prev { left: 6px; } .gxlb__nav--next { right: 6px; }
+}
+
+
+
+
+/* Depoimentos */
+.avatar { width: 48px; height: 48px; object-fit: cover; }
+
+.stars .bi {
+  font-size: 1rem;
+  margin-right: 2px;
+  color: #FFC107; /* dourado */
+}
+
+#depoimentos .card {
+  border: 1px solid rgba(22,82,158,.06);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+#depoimentos .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(22,82,158,.12);
+  border-color: rgba(22,82,158,.14);
+}
+
+// Botao serviços
+
+/* Botão “outline” com a paleta do template */
+.btn-outline-brand {
+  color: #16529E; /* texto/ícone */
+  border: 1px solid rgba(22, 82, 158, .55);
+  background-color: transparent;
+  transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+
+.btn-outline-brand:hover {
+  color: #fff;
+  background-color: #16529E;             /* fill brand */
+  border-color: #16529E;
+  box-shadow: 0 8px 18px rgba(22, 82, 158, .25);
+  transform: translateY(-1px);
+}
+
+.btn-outline-brand:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(22, 82, 158, .20);
+}
+
+.btn-outline-brand:focus-visible {
+  outline: 2px solid #69AAF9;            /* anel de foco na cor clara da marca */
+  outline-offset: 2px;
+}
+
+/* Tamanho/ajuste do ícone ao lado do texto */
+.btn-outline-brand i {
+  font-size: 1rem;
+  line-height: 1;
+  transform: translateY(1px); /* alinha verticalmente com o texto */
+}
+
+
+
+
+/* ===== Parceiros (carousel infinito) ===== */
+.partners {
+  --brand: #16529E;
+  --brand-200: #69AAF9;
+}
+
+.partners__viewport {
+  overflow: hidden;
+  position: relative;
+  /* “fade” nas bordas (suporte amplo) */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+}
+
+.partners__track {
+  --speed: 38s;  /* sobrescrito via style binding */
+  --gap: 28px;
+
+  display: flex;
+  gap: var(--gap);
+  width: max-content;            /* largura automática ao conteúdo */
+  will-change: transform;
+  animation: partners-scroll var(--speed) linear infinite;
+  align-items: center;
+  padding: 6px 0;
+}
+
+@keyframes partners-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* metade pois a lista foi duplicada */
+}
+
+.partners__item {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+}
+
+.partners__logo {
+  height: 40px;          /* ajuste de tamanho padrão */
+  width: auto;
+  filter: grayscale(1) opacity(.85);
+  transition: filter .2s ease, transform .2s ease;
+}
+
+.partners__logo:hover {
+  filter: grayscale(0) opacity(1) drop-shadow(0 2px 6px rgba(22,82,158,.15));
+  transform: translateY(-1px);
+}
+
+/* Pausar animação ao focar/hover (acessibilidade e controle) */
+.partners__viewport:hover .partners__track,
+.partners__viewport:focus-within .partners__track {
+  animation-play-state: paused;
+}
+
+/* Responsivo: logos maiores em telas médias/grandes */
+@media (min-width: 576px)  { .partners__logo { height: 46px; } }
+@media (min-width: 992px)  { .partners__logo { height: 52px; } }
+
+/* Respeita redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  .partners__track { animation: none !important; }
+}
+
+
+
+// sobre badges
+/* --- MOBILE: 3 colunas lado a lado --- */
+@media (max-width: 575.98px) {
+  .about__stats {
+    display: grid;                           /* vira grid no mobile */
+    grid-template-columns: repeat(3, 1fr);   /* 3 colunas iguais */
+    gap: 8px;                                /* um pouco menos de gap pra caber bem */
+  }
+
+  .about__badge {
+    min-width: 0;            /* deixa o card encolher para caber */
+    padding: 10px 8px;       /* padding menor no mobile */
+    text-align: center;
+  }
+
+  .about__kpi {
+    font-size: 1.05rem;      /* reduz um tiquinho no mobile */
+    line-height: 1.1;
+  }
+
+  .about__badge small {
+    display: block;
+    font-size: .74rem;       /* legenda menor pra caber */
+    line-height: 1.1;
+    white-space: normal;     /* deixa quebrar linha se precisar */
+  }
+}
+
+
+
+

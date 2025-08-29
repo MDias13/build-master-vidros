@@ -1,0 +1,57 @@
+/* ==============================
+   TESTIMONIALS – animações
+   ============================== */
+
+/* Keyframes */
+@keyframes depFadeUp {
+  from { opacity: 0; transform: translateY(14px) scale(.98); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes depAvatarPop {
+  0% { transform: scale(.9); opacity: 0; }
+  60%{ transform: scale(1.06); opacity: 1; }
+  100%{transform: scale(1); }
+}
+@keyframes depStarPop {
+  0% { transform: scale(.6); opacity: 0; }
+  60%{ transform: scale(1.15); opacity: 1; }
+  100%{transform: scale(1); }
+}
+
+/* Estado inicial (antes de entrar na viewport) */
+.pre-reveal { opacity: 0; transform: translateY(14px) scale(.98); }
+
+/* Quando entrar: anima o card usando o delay inline */
+.is-in.tst-card {
+  animation: depFadeUp .55s ease-out both;
+  /* usa o animation-delay vindo do [style.animationDelay] do template */
+}
+
+/* Detalhes visuais & hover */
+.tst-card {
+  border: 1px solid rgba(22,82,158,.06);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.tst-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(22,82,158,.12);
+  border-color: rgba(22,82,158,.14);
+}
+
+/* Avatar pop assim que o card entra */
+.is-in .avatar { animation: depAvatarPop .45s ease-out .06s both; }
+
+/* Estrelas surgem em sequência */
+.stars .bi { color: #FFC107; margin-right: 2px; }
+.is-in .stars .bi:nth-child(1) { animation: depStarPop .34s ease-out .10s both; }
+.is-in .stars .bi:nth-child(2) { animation: depStarPop .34s ease-out .16s both; }
+.is-in .stars .bi:nth-child(3) { animation: depStarPop .34s ease-out .22s both; }
+.is-in .stars .bi:nth-child(4) { animation: depStarPop .34s ease-out .28s both; }
+.is-in .stars .bi:nth-child(5) { animation: depStarPop .34s ease-out .34s both; }
+
+/* Acessibilidade: respeita redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  .pre-reveal { opacity: 1; transform: none; }
+  .is-in.tst-card, .is-in .avatar, .is-in .stars .bi { animation: none !important; }
+  .tst-card { transition: none !important; }
+}

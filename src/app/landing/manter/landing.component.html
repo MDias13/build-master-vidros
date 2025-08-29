@@ -1,0 +1,352 @@
+<header class="navbar navbar-expand-lg sticky-top bg-white shadow-sm nav-anim"
+        [class.navbar--scrolled]="isScrolled">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="assets/logo-nome.png" alt="Master Vidros" class="brand-logo" height="56" />
+    </a>
+
+    <button class="navbar-toggler toggler-anim" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <nav id="nav" class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto gap-2 align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="#servicos">Serviços</a></li>
+        <li class="nav-item"><a class="nav-link" href="#galeria">Galeria</a></li>
+        <li class="nav-item"><a class="nav-link" href="#sobre">Sobre nós</a></li>
+        <li class="nav-item"><a class="nav-link" href="#depoimentos">Depoimentos</a></li>
+        <li class="nav-item">
+          <a class="btn btn-primary d-inline-flex align-items-center gap-2"
+             [href]="whatsappUrl()" target="_blank" rel="noopener">
+            <i class="bi bi-whatsapp" aria-hidden="true"></i>
+            <span>Faça um orçamento</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero hero--dark d-flex align-items-center">
+  <div class="container text-center text-white">
+
+       <!-- Logo da empresa no hero -->
+    <!-- <img src="../../../assets/logo-nome.png" alt="Master Vidros" class="hero__logo a-fade-down" height="60" /> -->
+
+
+    <h1 class="display-5 fw-bold mb-3 a-fade-up ">
+      Transparência e qualidade que refletem confiança
+    </h1>
+
+    <p class="lead text-white-80 mb-4 a-fade-up a-delay-1">
+      Box, fachadas, espelhos e muito mais — projetos de alta qualidade com instalação profissional.
+    </p>
+
+
+   <a class="btn btn-outline-light btn-lg d-inline-flex align-items-center gap-2 a-fade-up a-delay-2"
+   href="#galeria" rel="noopener">
+  <span >Confira nossos projetos</span>
+  <i class="bi bi-arrow-right-short" aria-hidden="true"></i>
+</a>
+
+  </div>
+</section>
+
+
+<section id="servicos" class="py-5 bg-light">
+  <ng-container *appDeferRender="{ threshold: 0.15, rootMargin: '0px 0px -10% 0px' }">
+    <div class="container">
+      <h2 class="text-center mb-4 a-fade-up">Serviços</h2>
+      <p class="text-center text-muted mb-5 a-fade-up a-delay-1">
+        Selecionamos materiais premium e seguimos normas técnicas para garantir segurança e acabamento impecável.
+      </p>
+
+      <div class="row g-4 srv-grid">
+        <div class="col-12 col-md-6 col-lg-4" *ngFor="let s of servicos(); let i = index">
+          <div class="card h-100 shadow-sm border-0 srv-card a-reveal" [ngClass]="'a-delay-'+(i%3)">
+            <div class="card-body p-4">
+              <div class="icon-wrap srv-icon mb-3">
+                <i [class]="s.icon" aria-hidden="true"></i>
+              </div>
+              <h3 class="h5">{{ s.titulo }}</h3>
+              <p class="text-muted mb-3">{{ s.descricao }}</p>
+
+              <!-- Botão VER MAIS (abre showroom desse serviço) -->
+              <button type="button" class="btn btn-outline-brand btn-sm d-inline-flex align-items-center gap-1"
+                (click)="openSrvLightbox(i)">
+                <i class="bi bi-eye" aria-hidden="true"></i>
+                <span>Ver mais</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+<!-- Lightbox component -->
+<app-lightbox
+  [open]="srvLbServiceIdx() !== null"
+  [images]="currentSrvImgs()"
+  [index]="srvLbImgIdx()"
+  [title]="srvLbServiceIdx() !== null ? servicos()[srvLbServiceIdx()!].titulo : ''"
+  (close)="closeSrvLightbox()"
+  (indexChange)="srvLbImgIdx.set($event)">
+</app-lightbox>
+</section>
+
+
+<section id="galeria" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Galeria</h2>
+    <p class="text-center text-muted mb-5">Veja alguns projetos executados.</p>
+
+    <!-- CARROSSEL 3x1 -->
+    <div class="g3x">
+      <!-- Setas -->
+      <button type="button"
+              class="g3x__arrow g3x__arrow--left"
+              (click)="g3Prev()"
+              [disabled]="g3PageIndex() === 0"
+              aria-label="Anterior">‹</button>
+
+      <button type="button"
+              class="g3x__arrow g3x__arrow--right"
+              (click)="g3Next()"
+              [disabled]="g3PageIndex() === g3PageCount() - 1"
+              aria-label="Próximo">›</button>
+
+      <!-- Viewport / Trilho -->
+      <div #g3Viewport class="g3x__viewport" (scroll)="onG3Scroll()">
+        <!-- Cada página = 100% da largura; contém exatamente 3 itens -->
+        <div class="g3x__page" *ngFor="let page of g3Pages(); let pi = index">
+          <div class="g3x__row">
+            <figure class="g3x__figure"
+                    *ngFor="let img of page; let i = index"
+                    (click)="openLightbox(pi * g3PageSize + i)">
+              <img [src]="img"
+                   [alt]="galleryAlt(pi * g3PageSize + i)"
+                   loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+              <figcaption class="g3x__overlay"><span>Ver</span></figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- Botão: Ver galeria -->
+      <div class="text-center mt-4">
+        <button type="button" class="btn btn-primary btn-lg" (click)="openLightbox(0)">
+          Ver galeria Completa
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="gxlb" *ngIf="lightboxIndex() !== null">
+    <div class="gxlb__inner" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      <button type="button" class="gxlb__close" (click)="closeLightbox()" aria-label="Fechar">×</button>
+      <button type="button" class="gxlb__nav gxlb__nav--prev" (click)="lightboxPrev($event)" aria-label="Anterior">‹</button>
+      <img [src]="imagens()[lightboxIndex()!]" [alt]="galleryAlt(lightboxIndex()!)" />
+      <button type="button" class="gxlb__nav gxlb__nav--next" (click)="lightboxNext($event)" aria-label="Próximo">›</button>
+      <div class="gxlb__count">{{ (lightboxIndex()! + 1) }} / {{ imagens().length }}</div>
+    </div>
+  </div>
+</section>
+
+
+<section id="sobre" class="about py-5 bg-light">
+  <ng-container *appDeferRender>
+    <div class="container">
+      <div class="row align-items-center gy-4">
+
+        <!-- Coluna da imagem -->
+        <div class="col-12 col-lg-6">
+          <figure class="about__media a-about-left">
+            <img
+              src="https://plus.unsplash.com/premium_photo-1683140911652-9eccabee148f?q=80&w=1170&auto=format&fit=crop"
+              alt="Profissional instalando vidro na janela"
+              class="about__photo"
+              loading="lazy" decoding="async" />
+          </figure>
+        </div>
+
+        <!-- Coluna do conteúdo -->
+        <div class="col-12 col-lg-6">
+          <div class="about__content a-about-right">
+            <h2 class="mb-3">Sobre nós</h2>
+
+            <p class="lead text-muted mb-3">
+              Com mais de <strong>20 anos</strong> de experiência, a Master Vidros tem o prazer em transformar projetos em
+              realidade com <strong>segurança</strong>, <strong>acabamento premium</strong> e <strong>confiança</strong>.
+              Atuamos em serviços residenciais e comerciais, entregando boxes para banheiros, espelhos, guarda-corpo,
+              fachadas e muito mais.
+            </p>
+
+            <p class="text-muted mb-4">
+              Nosso time é formado por instaladores experientes, trabalhando apenas com material de qualidade. Cada projeto
+              recebe acompanhamento técnico para garantir um resultado perfeito.
+            </p>
+
+            <div class="about__stats mb-4">
+              <div class="about__badge a-burst-1"><span class="about__kpi">20+</span><small>Anos de atuação</small></div>
+              <div class="about__badge a-burst-2"><span class="about__kpi">1000+</span><small>Projetos entregues</small></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+</section>
+
+
+<section id="parceiros" class="partners py-5 bg-white">
+  <ng-container *appDeferRender="{ threshold: 0.12, rootMargin: '0px 0px -10% 0px' }">
+    <div class="container">
+      <h2 class="text-center mb-4 a-fade-up">Empresas parceiras</h2>
+
+      <div class="partners__viewport a-fade-up a-delay-1" aria-label="Carrossel de logos de empresas parceiras">
+        <ul class="partners__track"
+            [style.--speed]="partnersSpeed"
+            [style.--gap.px]="50">
+
+          <!-- 1ª metade -->
+          <li class="partners__item" *ngFor="let p of parceiros(); let i = index" [style.--i]="i">
+            <a *ngIf="p.url; else noLink" [href]="p.url" target="_blank" rel="noopener" [attr.aria-label]="p.nome">
+              <img class="partners__logo a-pop" [src]="p.logo" [alt]="p.nome" loading="lazy" decoding="async" />
+            </a>
+            <ng-template #noLink>
+              <img class="partners__logo a-pop" [src]="p.logo" [alt]="p.nome" loading="lazy" decoding="async" />
+            </ng-template>
+          </li>
+           <!-- 1ª metade -->
+          <li class="partners__item" *ngFor="let p of parceiros(); let i = index" [style.--i]="i">
+            <a *ngIf="p.url; else noLink" [href]="p.url" target="_blank" rel="noopener" [attr.aria-label]="p.nome">
+              <img class="partners__logo a-pop" [src]="p.logo" [alt]="p.nome" loading="lazy" decoding="async" />
+            </a>
+            <ng-template #noLink>
+              <img class="partners__logo a-pop" [src]="p.logo" [alt]="p.nome" loading="lazy" decoding="async" />
+            </ng-template>
+          </li>
+           <!-- 1ª metade -->
+          <li class="partners__item" *ngFor="let p of parceiros(); let i = index" [style.--i]="i">
+            <a *ngIf="p.url; else noLink" [href]="p.url" target="_blank" rel="noopener" [attr.aria-label]="p.nome">
+              <img class="partners__logo a-pop" [src]="p.logo" [alt]="p.nome" loading="lazy" decoding="async" />
+            </a>
+            <ng-template #noLink>
+              <img class="partners__logo a-pop" [src]="p.logo" [alt]="p.nome" loading="lazy" decoding="async" />
+            </ng-template>
+          </li>
+           <!-- 1ª metade -->
+          <li class="partners__item" *ngFor="let p of parceiros(); let i = index" [style.--i]="i">
+            <a *ngIf="p.url; else noLink" [href]="p.url" target="_blank" rel="noopener" [attr.aria-label]="p.nome">
+              <img class="partners__logo a-pop" [src]="p.logo" [alt]="p.nome" loading="lazy" decoding="async" />
+            </a>
+            <ng-template #noLink>
+              <img class="partners__logo a-pop" [src]="p.logo" [alt]="p.nome" loading="lazy" decoding="async" />
+            </ng-template>
+          </li>
+           <!-- 1ª metade -->
+          <li class="partners__item" *ngFor="let p of parceiros(); let i = index" [style.--i]="i">
+            <a *ngIf="p.url; else noLink" [href]="p.url" target="_blank" rel="noopener" [attr.aria-label]="p.nome">
+              <img class="partners__logo a-pop" [src]="p.logo" [alt]="p.nome" loading="lazy" decoding="async" />
+            </a>
+            <ng-template #noLink>
+              <img class="partners__logo a-pop" [src]="p.logo" [alt]="p.nome" loading="lazy" decoding="async" />
+            </ng-template>
+          </li>
+           <!-- 1ª metade -->
+          <li class="partners__item" *ngFor="let p of parceiros(); let i = index" [style.--i]="i">
+            <a *ngIf="p.url; else noLink" [href]="p.url" target="_blank" rel="noopener" [attr.aria-label]="p.nome">
+              <img class="partners__logo a-pop" [src]="p.logo" [alt]="p.nome" loading="lazy" decoding="async" />
+            </a>
+            <ng-template #noLink>
+              <img class="partners__logo a-pop" [src]="p.logo" [alt]="p.nome" loading="lazy" decoding="async" />
+            </ng-template>
+          </li>
+
+
+        </ul>
+      </div>
+    </div>
+  </ng-container>
+</section>
+
+
+
+<section id="depoimentos" class="py-5 bg-light">
+  <ng-container *appDeferRender="{ threshold: 1, rootMargin: '0px 0px -10% 0px' }">
+    <div class="container">
+      <h2 class="text-center mb-4 a-fade-up">Depoimentos</h2>
+
+      <div class="row g-4">
+        <div class="col-12 col-md-6 col-lg-3" *ngFor="let d of depoimentos(); let i = index">
+          <div class="card shadow-sm border-0 h-100 a-fade-up" [ngClass]="'a-delay-'+(i%4)">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-3">
+                <img class="avatar rounded-circle me-3"
+                     [src]="d.avatar"
+                     [alt]="'Foto de ' + d.nome"
+                     width="48" height="48" loading="lazy" />
+                <div>
+                  <div class="fw-semibold">{{ d.nome }}</div>
+                  <small class="text-muted">{{ d.origem }}</small>
+                </div>
+              </div>
+
+              <p class="mb-3">“{{ d.texto }}”</p>
+
+              <div class="stars" [attr.aria-label]="'Avaliação: ' + d.nota + ' de 5'">
+                <i *ngFor="let s of [1,2,3,4,5]"
+                   class="bi"
+                   [ngClass]="s <= d.nota ? 'bi-star-fill' : 'bi-star'"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </ng-container>
+</section>
+
+
+
+<section class="cta text-white text-center">
+  <ng-container *appDeferRender>
+    <div class="container">
+      <h2 class="mb-3 a-fade-up">Pronto para transformar seu ambiente?</h2>
+      <p class="opacity-75 mb-4 a-fade-up a-delay-1">
+        Fale com um especialista e receba seu orçamento rapidamente.
+      </p>
+
+      <a class="btn btn-light btn-lg d-inline-flex align-items-center gap-2 a-fade-up a-delay-2"
+         [href]="whatsappUrl()" target="_blank" rel="noopener">
+        <i class="bi bi-whatsapp" aria-hidden="true"></i>
+        <span>Falar no WhatsApp</span>
+      </a>
+    </div>
+  </ng-container>
+</section>
+
+
+<footer class="py-4 small bg-dark text-white-50">
+  <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
+    <div>© {{ empresa }}  • Todos os direitos reservados.</div>
+    <div>
+      <a class="link-light link-underline-opacity-0 me-3" href="#servicos">Serviços</a>
+      <a class="link-light link-underline-opacity-0 me-3" href="#galeria">Galeria</a>
+      <a class="link-light link-underline-opacity-0" [href]="whatsappUrl()" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Botão flutuante WhatsApp -->
+<a class="whatsapp-float" [href]="whatsappUrl()" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 32 32" aria-hidden="true">
+    <path d="M19.11 17.46c-.29-.15-1.69-.83-1.95-.92-.26-.1-.45-.15-.64.15-.19.29-.74.92-.91 1.11-.17.2-.34.22-.63.08-.29-.15-1.22-.45-2.32-1.43-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.43-.51.15-.17.19-.29.29-.48.09-.19.05-.36-.02-.51-.07-.15-.64-1.54-.88-2.11-.23-.56-.47-.48-.64-.49l-.55-.01c-.19 0-.5.07-.76.36-.26.29-1 1-1 2.43 0 1.43 1.02 2.81 1.16 3 .15.2 2 3.05 4.84 4.27.68.29 1.21.46 1.62.59.68.22 1.3.19 1.79.12.55-.08 1.69-.69 1.93-1.36.24-.67.24-1.24.17-1.36-.06-.11-.23-.18-.52-.33zM26.6 5.4C23.8 2.6 20.1 1 16.1 1 8.5 1 2.3 7.2 2.3 14.8c0 2.4.6 4.7 1.8 6.8L2 31l9.6-2.5c2 1.1 4.2 1.6 6.5 1.6 7.6 0 13.8-6.2 13.8-13.8 0-3.9-1.6-7.6-4.4-10.5z"/>
+  </svg>
+</a>

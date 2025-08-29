@@ -1,0 +1,55 @@
+/* ===========================
+   HERO – base + animações
+   =========================== */
+
+
+/* ===========================
+   Animações (keyframes)
+   =========================== */
+@keyframes heroFadeUp   { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes heroFadeDown { from { opacity: 0; transform: translateY(-10px);} to { opacity: 1; transform: none; } }
+@keyframes heroBlurUp   { from { opacity: 0; filter: blur(10px); transform: translateY(8px);} to { opacity: 1; filter: blur(0); transform: none; } }
+@keyframes heroArrowNudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+
+/* Helpers aplicadas no HTML */
+.a-fade-up   { animation: heroFadeUp .6s ease-out both; }
+.a-fade-down { animation: heroFadeDown .6s ease-out both; }
+.a-blur-up   { animation: heroBlurUp .7s ease-out both; }
+
+.a-delay-1 { animation-delay: .12s; }
+.a-delay-2 { animation-delay: .24s; }
+.a-delay-3 { animation-delay: .36s; }
+
+/* CTA outlined refinado + animação da seta */
+.hero .btn-outline-light {
+  border-width: 2px;
+  padding-inline: 24px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.25);
+  transition:
+    transform .15s ease,
+    box-shadow .15s ease,
+    color .15s ease,
+    background-color .15s ease,
+    border-color .15s ease;
+}
+.hero .btn-outline-light .bi {
+  font-size: 1.15rem;
+  line-height: 1;
+  animation: heroArrowNudge 1.2s ease-in-out infinite;
+}
+.hero .btn-outline-light:hover {
+  background: #fff;
+  color: #16529E;
+  border-color: #fff;
+  transform: translateY(-1px);
+}
+.hero .btn-outline-light:hover .bi {
+  animation-play-state: paused;
+  transform: translateX(2px);
+}
+
+/* Respeita usuários com redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  .hero [class*="a-"] { animation: none !important; }
+  .hero .btn-outline-light .bi { animation: none !important; }
+}

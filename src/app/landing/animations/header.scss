@@ -1,0 +1,76 @@
+/* ===========================
+   HEADER – animações & efeitos
+   =========================== */
+
+/* --- Keyframes --- */
+@keyframes navDrop     { from { opacity: 0; transform: translateY(-12px);} to { opacity: 1; transform: none; } }
+@keyframes logoPop     { from { opacity: 0; transform: translateY(6px) scale(.98);} to { opacity: 1; transform: none; } }
+@keyframes linkFadeUp  { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: none; } }
+@keyframes menuReveal  { from { opacity: 0; transform: translateY(-6px);} to { opacity: 1; transform: none; } }
+
+/* Header aparece suave no load */
+.nav-anim { animation: navDrop .5s ease-out both; }
+
+/* Suavidades gerais */
+.navbar {
+  transition: padding .2s ease, background-color .2s ease, box-shadow .2s ease, backdrop-filter .2s ease;
+}
+
+/* Logo com “pop” sutil */
+.navbar .brand-logo {
+  animation: logoPop .5s ease-out .05s both;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.12));
+  transition: height .2s ease;
+}
+
+/* Links com sublinhado animado */
+.navbar .nav-link {
+  position: relative;
+  overflow: hidden;
+}
+.navbar .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: .2rem;
+  height: 2px; width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .18s ease;
+  opacity: .85;
+}
+.navbar .nav-link:hover::after,
+.navbar .nav-link:focus::after { transform: scaleX(1); }
+
+/* Estado “scrolled” (aplique via classe/TS) */
+.navbar--scrolled {
+  background: rgba(255,255,255,.92);
+  backdrop-filter: saturate(1.15) blur(8px);
+  box-shadow: 0 6px 24px rgba(0,0,0,.08);
+  padding-top: .35rem;
+  padding-bottom: .35rem;
+}
+.navbar--scrolled .brand-logo { height: 44px; } /* encolhe a logo */
+
+/* Menu mobile abrindo com leve reveal */
+.navbar-collapse.show { animation: menuReveal .25s ease-out both; }
+.navbar-collapse.show .nav-item { animation: linkFadeUp .22s ease-out both; }
+.navbar-collapse.show .nav-item:nth-child(1) { animation-delay: .02s; }
+.navbar-collapse.show .nav-item:nth-child(2) { animation-delay: .06s; }
+.navbar-collapse.show .nav-item:nth-child(3) { animation-delay: .10s; }
+.navbar-collapse.show .nav-item:nth-child(4) { animation-delay: .14s; }
+
+/* Toggler com micro-interação */
+.navbar-toggler.toggler-anim {
+  transition: transform .12s ease, opacity .12s ease;
+}
+.navbar-toggler.toggler-anim:hover { transform: translateY(-1px); opacity: .9; }
+.navbar-toggler.toggler-anim:active { transform: translateY(0) scale(.97); }
+
+/* Respeita redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  .nav-anim,
+  .navbar .brand-logo,
+  .navbar-collapse.show .nav-item { animation: none !important; }
+  .navbar, .navbar-toggler.toggler-anim { transition: none !important; }
+}

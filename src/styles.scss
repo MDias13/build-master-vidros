@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+/* altura aproximada do header sticky */
+:root { --header-h: 55px; }
+
+/* rolagem suave e compensação da âncora */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 5px);
+}
+
+/* qualquer seção com id vai “parar” abaixo do header */
+section[id] {
+  scroll-margin-top: calc(var(--header-h) + 5px);
+}
